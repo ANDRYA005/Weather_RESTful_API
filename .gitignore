@@ -1,7 +1,6 @@
 *.ipynb_checkpoints
 *.vscode
 *.ipynb
-*.png
 
 __pycache__
 
