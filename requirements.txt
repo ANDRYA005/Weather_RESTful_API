@@ -20,17 +20,16 @@ jupyter-core==4.6.3
 kiwisolver==1.2.0
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
-matplotlib @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-base_1597428381320/work
+matplotlib==3.3.1
 mccabe==0.6.1
 mistune==0.8.4
 nbconvert==5.6.1
 nbformat==5.0.7
 notebook==6.0.3
-numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1595522867729/work
-olefile==0.46
+numpy==1.19.1
 packaging==20.4
 pandocfilters==1.4.2
-Pillow @ file:///home/conda/feedstock_root/build_artifacts/pillow_1594213113401/work
+Pillow==7.2.0
 prometheus-client==0.8.0
 ptyprocess==0.6.0
 pylint==2.5.3
@@ -41,7 +40,7 @@ qtconsole==4.7.5
 QtPy==1.9.0
 requests==2.24.0
 Send2Trash==1.5.0
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1590081179328/work
+six==1.15.0
 terminado==0.8.3
 testpath==0.4.4
 toml==0.10.1
