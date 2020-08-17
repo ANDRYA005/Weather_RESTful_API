@@ -1,4 +1,4 @@
-from app.weather_api import app 
+# from app.weather_api import app 
   
-if __name__ == "__main__": 
-        app.run() 
+# if __name__ == "__main__": 
+#         app.run() 
