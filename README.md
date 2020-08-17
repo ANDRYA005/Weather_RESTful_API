@@ -13,8 +13,8 @@ For accessing the min, max, average and median temperature and humidity for the 
 
 ##### Arguments:
 
-1. city: The city that you would like the weather summary for.
-2. period: The period of time to be considered.
+1. **city**: The city that you would like the weather summary for.
+2. **period**: The period of time to be considered.
 
 Using these arguments, the general form of the requests are as follows:
 
@@ -48,8 +48,8 @@ For generating bar charts displaying the min, max, average and median temperatur
 
 ##### Arguments:
 
-1. city: The city that you would like the weather summary for.
-2. period: The period of time to be considered.
+1. **city**: The city that you would like the weather summary for.
+2. **period**: The period of time to be considered.
 
 Using these arguments, the general form of the requests are as follows:
 
