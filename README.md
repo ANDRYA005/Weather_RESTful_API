@@ -5,27 +5,61 @@
 This is a Flask-based API for querying weather data for a given city and period. In order to obtain weather data, the Virtual Crossing Weather API is used (https://www.visualcrossing.com/weather-api). 
 
 
-### Requests
+### Endpoints
 
-#### Arguments:
+#### 1. /weather
+
+##### Arguments:
 
 1. city: The city that you would like the weather summary for.
 2. period: The period of time to be considered.
 
 Using these arguments, the general form of the requests are as follows:
 
-#### Running locally:
+##### Running locally:
 ```
 http://127.0.0.1:5000/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
 
-#### Running deployed app (hosted on Heroku):
+##### Running deployed app (hosted on Heroku):
 ```
 https://flask-weather-api-app.herokuapp.com/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
 
-If the request is succesful, the returned results are the min, max, average and median temperature and humidity for given city and period of time in json format.
+If the request is succesful, the returned results are the min, max, average and median temperature and humidity for the given city and period of time in json format. Here is an example output:
 
+```
+{"average_humidity":74.62,
+ "average_temp":20.08,
+ "max_humidity":91.06,
+ "max_temp":29.9,
+ "median_humidity":80.31,
+ "median_temp":18.9,
+ "min_humidity":37.71,
+ "min_temp":15.1}
+```
+
+
+#### 2. /weather/bar
+
+##### Arguments:
+
+1. city: The city that you would like the weather summary for.
+2. period: The period of time to be considered.
+
+Using these arguments, the general form of the requests are as follows:
+
+##### Running locally:
+```
+http://127.0.0.1:5000/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
+```
+
+##### Running deployed app (hosted on Heroku):
+```
+https://flask-weather-api-app.herokuapp.com/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
+```
+
+If the request is succesful, the returned result is a two bar charts displaying the min, max, average and median temperature and humidity, respectively, for the given city and period of time.
 
 ## Limitations due to Virtual Crossing
 
