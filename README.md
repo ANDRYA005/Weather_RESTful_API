@@ -6,7 +6,13 @@ This is a Flask-based API for querying weather data for a given city and period.
 
 
 ### Requests
-The general form of the requests are as follows:
+
+#### Arguments:
+
+1. city: The city that you would like the weather summary for.
+2. period: The period of time to be considered.
+
+Using these arguments, the general form of the requests are as follows:
 
 #### Running locally:
 ```
@@ -19,3 +25,16 @@ https://flask-weather-api-app.herokuapp.com/weather?city=<CITY>&period=<START_DA
 ```
 
 If the request is succesful, the returned results are the min, max, average and median temperature and humidity for given city and period of time in json format.
+
+
+## Limitations due to Virtual Crossing
+
+As the API made use of the free Virtual Crossing API plan, there are daily request limits (250) and there are also limits on the results per query (100). To handle the latter, we used their ```aggregateHours``` parameter. When this parameter is set to 1, the data returned is hourly data; when it is set to 2, the hourly data is aggregated to two-hourly data; and so on...
+In order to implement this we used the following lines of code:
+```
+aggregator = 1
+    num_obs = get_num_obs(start, end, aggregator)
+    while num_obs > 100:
+        aggregator += 1
+```
+where ```aggregator``` is then used as their ```aggregateHours``` parameter.
