@@ -9,6 +9,8 @@ This is a Flask-based API for querying weather data for a given city and period.
 
 #### 1. /weather
 
+For accessing the min, max, average and median temperature and humidity for the given city and period of time.
+
 ##### Arguments:
 
 1. city: The city that you would like the weather summary for.
@@ -42,6 +44,8 @@ If the request is succesful, the returned results are the min, max, average and 
 
 #### 2. /weather/bar
 
+For generating bar charts displaying the min, max, average and median temperature and humidity for the given city and period of time.
+
 ##### Arguments:
 
 1. city: The city that you would like the weather summary for.
@@ -59,16 +63,21 @@ http://127.0.0.1:5000/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
 https://flask-weather-api-app.herokuapp.com/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
 
-If the request is succesful, the returned result is a two bar charts displaying the min, max, average and median temperature and humidity, respectively, for the given city and period of time.
+If the request is succesful, the returned result is a two bar charts displaying the min, max, average and median temperature and humidity, respectively, for the given city and period of time. Here is an example:
+
+![diagram](bar_charts.png)
 
 ## Limitations due to Virtual Crossing
 
 As the API made use of the free Virtual Crossing API plan, there are daily request limits (250) and there are also limits on the results per query (100). To handle the latter, we used their ```aggregateHours``` parameter. When this parameter is set to 1, the data returned is hourly data; when it is set to 2, the hourly data is aggregated to two-hourly data; and so on...
 In order to implement this we used the following lines of code:
 ```
-aggregator = 1                                     # hourly data
-    num_obs = get_num_obs(start, end, aggregator)  # results per query
-    while num_obs > 100:                           # while too many results per query
-        aggregator += 1                            # increase aggregation level
+aggregator = 1                                                         # hourly data
+num_obs = get_num_obs(start, end, aggregator)                          # results per query
+    while num_obs > 100:                                               # while too many results per query
+        if aggregator == 24:
+            return 'Period is too long for Weather Crossing API.', 1  
+        aggregator += 1                                                # increase aggregation level
+        num_obs = get_num_obs(start, end, aggregator)                  # recalculating results per query
 ```
-where ```aggregator``` is then used as their ```aggregateHours``` parameter.
+where ```aggregator``` is then used as their ```aggregateHours``` parameter. Since the ```aggregateHours``` parameter can have a maximum value of 24, it means that you cannot request data for a period of longer than 100 days.
