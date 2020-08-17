@@ -118,4 +118,4 @@ def home():
     return 'Made it!'
 
 
-app.run()
+app.run(debug=True)
