@@ -111,3 +111,5 @@ def weather_conditions():
     if indicator == 1:
        return f'Error: {weather_results}' 
     return jsonify(weather_results)
+
+# app.run(debug=True)
