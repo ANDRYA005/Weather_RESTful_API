@@ -143,11 +143,14 @@ def bar_summary():
             weather_results['average_temp'],
             weather_results['max_temp']
             ]
-        plt.subplot(1, 2, 1)
-        plt.bar(y_pos, performance, align='center', alpha=0.5)
-        plt.xticks(y_pos, objects)
-        plt.ylabel('Degrees Celcius')
-        plt.title('Summary Statistics for \n Temperature')
+        # Plot in different subplots
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        # plt.subplot(1, 2, 1)
+        ax1.bar(y_pos, performance, align='center', alpha=0.5)
+        ax1.set_xticks(y_pos)
+        ax1.set_xticklabels(objects)
+        ax1.set_ylabel('Degrees Celcius')
+        ax1.set_title('Summary Statistics for \n Temperature')
 
         performance = [
             weather_results['min_humidity'],
@@ -155,16 +158,17 @@ def bar_summary():
             weather_results['average_humidity'],
             weather_results['max_humidity']
             ]
-        plt.subplot(1, 2, 2)
-        plt.bar(y_pos, performance, align='center', alpha=0.5)
-        plt.xticks(y_pos, objects)
-        plt.ylabel('Percentage (%)')
-        plt.title('Summary Statistics for \n Humidity')
-        plt.tight_layout()
-        plt.savefig('bar_charts.png')
+        # plt.subplot(1, 2, 2)
+        ax2.bar(y_pos, performance, align='center', alpha=0.5)
+        ax2.set_xticks(y_pos)
+        ax2.set_xticklabels(objects)
+        ax2.set_ylabel('Percentage (%)')
+        ax2.set_title('Summary Statistics for \n Humidity')
+        fig.tight_layout()
+        fig.savefig('bar_charts.png')
         return send_file('bar_charts.png', mimetype='image/png')
-        # plt.show()
-    except:
+    except Exception as e:
+        print(e)
         error = 'Something went wrong when trying to create bar charts. Please ensure that you request weather data before attempting to generate the plots.'
         return error
     
