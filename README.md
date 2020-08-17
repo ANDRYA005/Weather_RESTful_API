@@ -13,7 +13,7 @@ The general form of the requests are as follows:
 http://127.0.0.1:5000/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
 
-#### Running hosted app (hosted on Heroku):
+#### Running deployed app (hosted on Heroku):
 ```
 https://flask-weather-api-app.herokuapp.com/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
