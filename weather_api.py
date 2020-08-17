@@ -1,10 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import requests
 import json
 from functools import reduce
 import itertools
 from datetime import date, datetime
 from statistics import median
+import matplotlib.pyplot as plt
+import numpy as np
 
 API_KEY = "X6561E5DQHPZ7KGXEE8WMQMJ2"
 
@@ -37,6 +39,8 @@ def get_weather(city, start, end):
     aggregator = 1
     num_obs = get_num_obs(start, end, aggregator)
     while num_obs > 100:
+        if aggregator == 24:
+            return 'Period is too long for Weather Crossing API.', 1
         aggregator += 1
         num_obs = get_num_obs(start, end, aggregator)
     url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/history?&aggregateHours={aggregator}&startDateTime={start}T00:00:00&endDateTime={end}T00:00:00&unitGroup=uk&contentType=json&dayStartTime=0:0:00&dayEndTime=0:0:00&location={city}&key={API_KEY}'
@@ -44,18 +48,18 @@ def get_weather(city, start, end):
     try:
         response = requests.get(url)
         response.raise_for_status()
+        return response.json(), 0
     except requests.exceptions.HTTPError as e:
         return e, 1
 
-    # response = requests.get(url)
-
-    return response.json(), 0
+ 
 
 def is_valid_dates(start, end):
     try:
-        datetime.strptime(start, '%Y-%m-%d')
-        datetime.strptime(end, '%Y-%m-%d')
-        return True
+        start_date = datetime.strptime(start, '%Y-%m-%d')
+        end_date = datetime.strptime(end, '%Y-%m-%d')
+        delta = end_date - start_date
+        return delta.days >= 0
     except:
         return False
 
@@ -69,7 +73,7 @@ def get_weather_results(city, period):
         return error, 1
 
     if not is_valid_dates(start_date, end_date):
-        error = "One of your dates are invalid. The correct date format is '%Y-%m-%d'."
+        error = "Your dates are invalid. Either they are formatted incorrectly (the correct date format is '%Y-%m-%d') or the end date is before the start date."
         return error, 1
 
     weather_json, status = get_weather(city, start_date, end_date)
@@ -117,5 +121,52 @@ def weather_conditions():
 def home():
     return 'Made it!'
 
+
+@app.route('/weather/bar')
+def bar_summary():
+
+    city  = request.args.get('city', None, type=str)
+    period  = request.args.get('period', None, type=str)
+   
+    weather_results, indicator = get_weather_results(city, period)
+    if indicator == 1:
+       return f'Error: {weather_results}' 
+
+    objects = ('Min', 'Median', 'Mean', 'Max')
+    y_pos = np.arange(len(objects))
+
+    try:
+        print(weather_results)
+        performance = [
+            weather_results['min_temp'],
+            weather_results['median_temp'],
+            weather_results['average_temp'],
+            weather_results['max_temp']
+            ]
+        plt.subplot(1, 2, 1)
+        plt.bar(y_pos, performance, align='center', alpha=0.5)
+        plt.xticks(y_pos, objects)
+        plt.ylabel('Degrees Celcius')
+        plt.title('Summary Statistics for \n Temperature')
+
+        performance = [
+            weather_results['min_humidity'],
+            weather_results['median_humidity'],
+            weather_results['average_humidity'],
+            weather_results['max_humidity']
+            ]
+        plt.subplot(1, 2, 2)
+        plt.bar(y_pos, performance, align='center', alpha=0.5)
+        plt.xticks(y_pos, objects)
+        plt.ylabel('Percentage (%)')
+        plt.title('Summary Statistics for \n Humidity')
+        plt.tight_layout()
+        plt.savefig('bar_charts.png')
+        return send_file('bar_charts.png', mimetype='image/png')
+        # plt.show()
+    except:
+        error = 'Something went wrong when trying to create bar charts. Please ensure that you request weather data before attempting to generate the plots.'
+        return error
+    
 
 # app.run(debug=True)
