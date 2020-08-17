@@ -112,4 +112,4 @@ def weather_conditions():
        return f'Error: {weather_results}' 
     return jsonify(weather_results)
 
-# app.run(debug=True)
+app.run()
