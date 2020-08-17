@@ -1,1 +1,1 @@
-web: python3 weather_api.py
+web: python weather_api.py
