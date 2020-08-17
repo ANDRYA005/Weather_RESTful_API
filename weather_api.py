@@ -112,4 +112,10 @@ def weather_conditions():
        return f'Error: {weather_results}' 
     return jsonify(weather_results)
 
+
+@app.route('/')
+def home():
+    return 'Made it!'
+
+
 app.run()
