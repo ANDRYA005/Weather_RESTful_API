@@ -5,6 +5,13 @@
 This is a Flask-based API for querying weather data for a given city and period. In order to obtain weather data, the Virtual Crossing Weather API is used (https://www.visualcrossing.com/weather-api). 
 
 
+If you are running the API locally, please run the following command
+```
+python3 wsgi.py
+```
+to start the local server. Alternatively, the API is hosted on Heroku (see below).
+
+
 ### Endpoints
 
 #### 1. /weather
