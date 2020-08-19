@@ -5,6 +5,13 @@
 This is a Flask-based API for querying weather data for a given city and period. In order to obtain weather data, the Virtual Crossing Weather API is used (https://www.visualcrossing.com/weather-api). 
 
 
+If you are running the API locally, please run the following command
+```
+python3 wsgi.py
+```
+to start the local server. Alternatively, the API is hosted on Heroku (see below).
+
+
 ### Endpoints
 
 #### 1. /weather
@@ -14,7 +21,7 @@ For accessing the min, max, average and median temperature and humidity for the 
 ##### Arguments:
 
 1. **city**: The city that you would like the weather summary for.
-2. **period**: The period of time to be considered.
+2. **period**: The period of time to be considered in the form: <START_DATE>|<END_DATE>, with the following time formatting: %Y-%m-%d, for each of the dates.
 
 Using these arguments, the general form of the requests are as follows:
 
@@ -22,11 +29,20 @@ Using these arguments, the general form of the requests are as follows:
 ```
 http://127.0.0.1:5000/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
+Here is an example request:
+```
+http://127.0.0.1:5000/weather?city=Johannesburg&period=2019-08-01|2019-09-05
+```
 
 ##### Running deployed app (hosted on Heroku):
 ```
 https://flask-weather-api-app.herokuapp.com/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
+Here is an example request:
+```
+https://flask-weather-api-app.herokuapp.com/weather?city=Johannesburg&period=2019-08-01|2019-09-05
+```
+
 
 If the request is succesful, the returned results are the min, max, average and median temperature and humidity for the given city and period of time in json format. Here is an example output:
 
@@ -49,7 +65,7 @@ For generating bar charts displaying the min, max, average and median temperatur
 ##### Arguments:
 
 1. **city**: The city that you would like the weather summary for.
-2. **period**: The period of time to be considered.
+2. **period**: The period of time to be considered in the form: <START_DATE>|<END_DATE>, with the following time formatting: %Y-%m-%d, for each of the dates.
 
 Using these arguments, the general form of the requests are as follows:
 
@@ -58,10 +74,21 @@ Using these arguments, the general form of the requests are as follows:
 http://127.0.0.1:5000/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
 
+Here is an example request:
+```
+http://127.0.0.1:5000/weather/bar?city=Johannesburg&period=2019-08-01|2019-09-05
+```
+
 ##### Running deployed app (hosted on Heroku):
 ```
 https://flask-weather-api-app.herokuapp.com/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
+
+Here is an example request:
+```
+https://flask-weather-api-app.herokuapp.com/weather/bar?city=Johannesburg&period=2019-08-01|2019-09-05
+```
+
 
 If the request is succesful, the returned result is a two bar charts displaying the min, max, average and median temperature and humidity, respectively, for the given city and period of time. Here is an example:
 
