@@ -9,8 +9,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # get the Visual Crossing API key
-with open("./visual_crossing_api_key.txt", "r") as file:
-    API_KEY = file.readline()
+API_KEY = "X6561E5DQHPZ7KGXEE8WMQMJ2"
+# with open("./visual_crossing_api_key.txt", "r") as file:
+#     API_KEY = file.readline()
+
 
 app = Flask(__name__)
 
