@@ -31,7 +31,7 @@ http://127.0.0.1:5000/weather?city=<CITY>&period=<START_DATE>|<END_DATE>
 ```
 Here is an example request:
 ```
-http://127.0.0.1:5000/weather?city=Johannesburg&period=2019-08-01|2019-09-05
+http://127.0.0.1:5000/weather?city=Johannesburg&period=2019-09-01|2019-09-05
 ```
 
 ##### Running deployed app (hosted on Heroku):
@@ -40,7 +40,7 @@ https://flask-weather-api-app.herokuapp.com/weather?city=<CITY>&period=<START_DA
 ```
 Here is an example request:
 ```
-https://flask-weather-api-app.herokuapp.com/weather?city=Johannesburg&period=2019-08-01|2019-09-05
+https://flask-weather-api-app.herokuapp.com/weather?city=Johannesburg&period=2019-09-01|2019-09-05
 ```
 
 
@@ -76,7 +76,7 @@ http://127.0.0.1:5000/weather/bar?city=<CITY>&period=<START_DATE>|<END_DATE>
 
 Here is an example request:
 ```
-http://127.0.0.1:5000/weather/bar?city=Johannesburg&period=2019-08-01|2019-09-05
+http://127.0.0.1:5000/weather/bar?city=Johannesburg&period=2019-09-01|2019-09-05
 ```
 
 ##### Running deployed app (hosted on Heroku):
@@ -86,7 +86,7 @@ https://flask-weather-api-app.herokuapp.com/weather/bar?city=<CITY>&period=<STAR
 
 Here is an example request:
 ```
-https://flask-weather-api-app.herokuapp.com/weather/bar?city=Johannesburg&period=2019-08-01|2019-09-05
+https://flask-weather-api-app.herokuapp.com/weather/bar?city=Johannesburg&period=2019-09-01|2019-09-05
 ```
 
 
