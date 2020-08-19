@@ -8,7 +8,9 @@ from statistics import median
 import matplotlib.pyplot as plt
 import numpy as np
 
-API_KEY = "X6561E5DQHPZ7KGXEE8WMQMJ2"
+# get the Visual Crossing API key
+with open("./visual_crossing_api_key.txt", "r") as file:
+    API_KEY = file.readline()
 
 app = Flask(__name__)
 
@@ -16,12 +18,15 @@ app = Flask(__name__)
 def average(lst): 
     return reduce(lambda a, b: a + b, lst) / len(lst) 
 
+
 def period_to_start_end(period):
+    """ converts period format to start and end dates """
     start = period.split('|')[0]
     end = period.split('|')[1]
     return start, end
 
 def get_num_days(start, end):
+    """ returns the number of days between the start and end date """
     start_date = datetime.strptime(start, '%Y-%m-%d')
     end_date = datetime.strptime(end, '%Y-%m-%d')
     delta = end_date - start_date
@@ -29,6 +34,7 @@ def get_num_days(start, end):
 
 
 def get_num_obs(start, end, aggregator):
+    """ returns the number of visual crossing weather observations that fall within the period """
     num_days = get_num_days(start, end)
     num_hours = num_days*24
     num_obs = num_hours//aggregator
@@ -36,6 +42,7 @@ def get_num_obs(start, end, aggregator):
 
 
 def get_weather(city, start, end):
+    """ general function for retrieving the weather data """
     aggregator = 1
     num_obs = get_num_obs(start, end, aggregator)
     while num_obs > 100:
@@ -55,6 +62,7 @@ def get_weather(city, start, end):
  
 
 def is_valid_dates(start, end):
+    """ checks if the dates are valid """
     try:
         start_date = datetime.strptime(start, '%Y-%m-%d')
         end_date = datetime.strptime(end, '%Y-%m-%d')
@@ -64,6 +72,7 @@ def is_valid_dates(start, end):
         return False
 
 def get_weather_results(city, period):
+    """ function that gets the weather data, computes the statistics and stores the results in a dictionary """
     weather_summary = {}
 
     try:
@@ -108,6 +117,7 @@ def get_weather_results(city, period):
 
 @app.route('/weather')
 def weather_conditions():
+    """ endpoint for weather summary """
     city  = request.args.get('city', None, type=str)
     period  = request.args.get('period', None, type=str)
    
@@ -117,14 +127,9 @@ def weather_conditions():
     return jsonify(weather_results)
 
 
-@app.route('/')
-def home():
-    return 'Made it!'
-
-
 @app.route('/weather/bar')
 def bar_summary():
-
+    """ endpoint for bar graphs """
     city  = request.args.get('city', None, type=str)
     period  = request.args.get('period', None, type=str)
    
@@ -136,7 +141,6 @@ def bar_summary():
     y_pos = np.arange(len(objects))
 
     try:
-        print(weather_results)
         performance = [
             weather_results['min_temp'],
             weather_results['median_temp'],
@@ -145,7 +149,7 @@ def bar_summary():
             ]
         # Plot in different subplots
         fig, (ax1, ax2) = plt.subplots(1, 2)
-        # plt.subplot(1, 2, 1)
+
         ax1.bar(y_pos, performance, align='center', alpha=0.5)
         ax1.set_xticks(y_pos)
         ax1.set_xticklabels(objects)
@@ -158,7 +162,7 @@ def bar_summary():
             weather_results['average_humidity'],
             weather_results['max_humidity']
             ]
-        # plt.subplot(1, 2, 2)
+
         ax2.bar(y_pos, performance, align='center', alpha=0.5)
         ax2.set_xticks(y_pos)
         ax2.set_xticklabels(objects)
@@ -172,5 +176,3 @@ def bar_summary():
         error = 'Something went wrong when trying to create bar charts. Please ensure that you request weather data before attempting to generate the plots.'
         return error
     
-
-# app.run(debug=True)

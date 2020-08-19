@@ -1,6 +1,7 @@
 *.ipynb_checkpoints
 *.vscode
 *.ipynb
+visual_crossing_api_key.txt
 
 __pycache__
 
